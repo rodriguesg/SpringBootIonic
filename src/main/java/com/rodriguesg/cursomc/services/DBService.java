@@ -42,7 +42,7 @@ public class DBService {
 	@Autowired
 	private CidadeRepository cidadeRepository;
 	@Autowired
-	private ClienteRepository clienteRepository;
+	private ClienteRepository clienteRepository; 
 	@Autowired
 	private EnderecoRepository enderecoRepository;
 	@Autowired
