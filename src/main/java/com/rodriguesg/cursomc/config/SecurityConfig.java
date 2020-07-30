@@ -1,7 +1,8 @@
 package com.rodriguesg.cursomc.config;
 
-import java.util.Arrays;
-
+import com.rodriguesg.cursomc.security.JWTAuthenticationFilter;
+import com.rodriguesg.cursomc.security.JWTAuthorizationFilter;
+import com.rodriguesg.cursomc.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,9 +20,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.rodriguesg.cursomc.security.JWTAuthenticationFilter;
-import com.rodriguesg.cursomc.security.JWTAuthorizationFilter;
-import com.rodriguesg.cursomc.security.JWTUtil;
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -43,11 +42,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private static final String[] PUBLIC_MATCHERS_GET = {
 			"/produtos/**",
-			"/categorias/**"
+			"/categorias/**",
+			"/estados/**"
 	};
 
 	private static final String[] PUBLIC_MATCHERS_POST = {
-			"/clientes/**"
+			"/clientes/**",
+			"/clientes/picture",
+			"/auth/forgot/**"
 	};
 	
 	@Override
@@ -70,8 +72,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
+		configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS"));
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+		source.registerCorsConfiguration("/**", configuration);
 		return source;
 	}
 	
